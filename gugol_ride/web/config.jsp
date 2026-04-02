@@ -14,7 +14,6 @@
     private boolean ready = false;
     
     final String USER_FILES_PATH = "../user_files/";
-    String userLog = null;
     Connection connect = null;
     Statement statement = null;
     ResultSet result = null;
@@ -26,7 +25,7 @@
     }
 %>
 <%
-    out.println("<h1>TODO: cookie e sessoni</h1>");
+    out.println("<h1>TODO: cookie e sessoni + idFile in 'permessi'</h1>");
     try {
         Class.forName(DRIVER);
         connect = DriverManager.getConnection(URL_mioDB, userName, password);
@@ -68,7 +67,6 @@
             while(result.next()){
                 File userDir = new File(USER_FILES_PATH + result.getString(1));
                 if (!userDir.exists()){
-                    //todo: carica anche tutti i file
                     userDir.mkdir();
                 }
             }

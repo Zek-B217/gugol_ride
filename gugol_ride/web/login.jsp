@@ -28,7 +28,9 @@
                     if(!result.next()){ //se è vuoto
                         out.println("<p class='error'>Username o password errati! </p>"); 
                     } else {
-                        userLog = user;
+                        if (session.getAttribute("user_log") == null) {
+                            session.setAttribute("user_log", user);
+                        }
                         response.sendRedirect("index.jsp");
                     }
                 }

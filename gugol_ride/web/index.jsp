@@ -41,36 +41,34 @@
             */
 
             
-            if(UserLog != null){
-                result = statement.executeQuery("SELECT f.* FROM utente u, permesso p, file f WHERE u.Username = p.Username AND p.Id = f.Id AND u.Username = '" + userLog + "'");
+            if(session.getAttribute("user_log") != null){
+                result = statement.executeQuery("SELECT f.* FROM utente u, permesso p, file f WHERE u.Username = p.Username AND p.Id = f.Id AND u.Username = '" + session.getAttribute("user_log") + "'");
+                %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Path</th>
+                            <th>Nome</th>
+                            <th>Tipo</th>
+                            <th>Proprietario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% while (result.next()) { %>
+                        <tr>
+                            <td><%= result.getInt("Id") %></td>
+                            <td><%= result.getString("Path") %></td>
+                            <td><%= result.getString("Nome") %></td>
+                            <td><%= result.getString("Tipo") %></td>
+                            <td><%= result.getString("Proprietario") %></td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                <%
             }   
         %>
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Path</th>
-                    <th>Nome</th>
-                    <th>Tipo</th>
-                    <th>Proprietario</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% while (result.next()) { %>
-                <tr>
-                    <td><%= result.getInt("Id") %></td>
-                    <td><%= result.getString("Path") %></td>
-                    <td><%= result.getString("Nome") %></td>
-                    <td><%= result.getString("Tipo") %></td>
-                    <td><%= result.getString("Proprietario") %></td>
-                </tr>
-                <% } %>
-            </tbody>
-        </table>
-        
-        
-
     </body>
     
 </html>
