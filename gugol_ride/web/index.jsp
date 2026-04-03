@@ -67,11 +67,31 @@
                     </tbody>
                 </table>
                     
-                    <hr>
+                <hr>
+                    
+                <form action="upload.jsp" method="post" enctype="multipart/form-data">
+                    <div>
+                      <label for="file-upload">Seleziona un file:</label>
+                      <input type="file" id="file-upload" name="caricamento_file" required>
+                    </div>
+
+                    <button type="submit">Carica File</button>
+                </form>
+                
+                <br><br><br>
+                
+                <form action="UploadController" method="post" enctype="multipart/form-data">
+                    <div>
+                        <label for="folder-upload">Seleziona una cartella:</label>
+                        <input type="file" id="folder-upload" name="caricamento_file" webkitdirectory directory required>
+                    </div>
+                    <button type="submit">Carica Intera Cartella</button>
+                </form>
+                
+                <br><br><br>
                     
                 <a href="logout.jsp">LOG OUT</a>
                 <%
-                    
             }   
         %>
     </body>
