@@ -44,7 +44,7 @@
 
             statement.execute("CREATE TABLE IF NOT EXISTS File ("
                 + "Id INT AUTO_INCREMENT PRIMARY KEY,"
-                + "Path VARCHAR(267) UNIQUE NOT NULL,"
+                + "Path VARCHAR(267) NOT NULL,"
                 + "Nome VARCHAR(50) NOT NULL,"
                 + "Cartella BOOLEAN NOT NULL,"
                 + "Proprietario VARCHAR(20) NOT NULL,"
