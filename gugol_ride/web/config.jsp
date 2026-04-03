@@ -14,6 +14,7 @@
     private boolean ready = false;
     
     final String USER_FILES_PATH = "../user_files/";
+    final int TEMPO_MASSIMO_INATTIVITA = 3600;
     Connection connect = null;
     Statement statement = null;
     ResultSet result = null;
