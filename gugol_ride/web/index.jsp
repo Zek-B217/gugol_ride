@@ -1,5 +1,5 @@
 
-<%@include file="config.jsp" %>
+<%@include file="config.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -13,7 +13,6 @@
 
         <a href="signup.jsp">SIGN UP</a>
         <a href="login.jsp">LOG IN</a>
-        
         <%
             if(session.getAttribute("user_log") != null){
                 String user = session.getAttribute("user_log").toString();
@@ -31,15 +30,13 @@
                 
                 while (result.next()) { 
                     if(!result.getBoolean("Cartella")){
-                        String path = new File(USER_FILES_PATH + user + "/" + result.getString("path") + result.getString("nome")).getAbsolutePath();
-                        out.println(new File(USER_FILES_PATH + user + "/" + result.getString("path") + result.getString("nome")).exists());
-                    %>
+                        String path = USER_FILES_FOLDER_NAME + user + "/" + result.getString("path") + result.getString("nome");
+        %>
                         
-                        <a href="<%out.println(path);%>" target="_blank">
+                        <a href="<%=path%>" target="_blank"> <!--target="_blank" permette di aprire il file in un'altra schermata-->
                             <div>
-                                <p><%= result.getString("Nome") %></p>
-                                <p><%= result.getString("Proprietario") %></p>
-                                <img src="../user_files/oscar/IMG_20170219_153238.jpg"></img>
+                                <p><%=result.getString("Nome")%></p>
+                                <p><%=result.getString("Proprietario")%></p>
                             </div>
                         </a>
                         <% 
@@ -74,7 +71,7 @@
                 }else{
                     response.sendRedirect("logout.jsp");
                 }
-            }   
+            }
         %>
     </body>
     

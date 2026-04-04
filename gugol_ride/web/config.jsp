@@ -11,9 +11,9 @@
     private final String URL_mioDB = "jdbc:mysql://localhost:3306/";
     private final String userName = "root";
     private final String password = "";
-    private boolean ready = false;
     
-    final String USER_FILES_PATH = "user_files/";
+    String USER_FILES_PATH = "";
+    String USER_FILES_FOLDER_NAME = "user_files/";
     final int TEMPO_MASSIMO_INATTIVITA = 3600;
     Connection connect = null;
     Statement statement = null;
@@ -35,7 +35,10 @@
         statement.execute("USE " + NAME);
 
         //Creazione tabelle
-        if (!ready){
+        if (session.getAttribute("READY") == null){
+            String user_files_path = getServletContext().getRealPath(USER_FILES_FOLDER_NAME);
+            
+            session.setAttribute("USER_FILES_PATH", user_files_path);
             statement.execute("CREATE TABLE IF NOT EXISTS Utente ("
                 + "Username VARCHAR(20) PRIMARY KEY,"
                 + "Password VARCHAR(20) NOT NULL"
@@ -57,21 +60,23 @@
                 + "FOREIGN KEY(Username) REFERENCES Utente(Username),"
                 + "FOREIGN KEY(IdFile) REFERENCES File(Id)"
             + ")");
-
-            File userFilesFolder = new File(USER_FILES_PATH);
+            
+            File userFilesFolder = new File(user_files_path);
             if (!userFilesFolder.exists()){
                 userFilesFolder.mkdir();
             }
             
             result = statement.executeQuery("SELECT username FROM utente");
             while(result.next()){
-                File userDir = new File(USER_FILES_PATH + result.getString(1));
+                File userDir = new File(user_files_path + result.getString(1));
                 if (!userDir.exists()){
                     userDir.mkdir();
                 }
             }
-            ready = true;
+            session.setAttribute("READY", true);
         }
+        
+        USER_FILES_PATH = session.getAttribute("USER_FILES_PATH").toString();
     } catch (ClassNotFoundException e) {
         out.println("<p class='error'>Errore: Driver non trovato</p>");
     } catch (SQLException e) {
