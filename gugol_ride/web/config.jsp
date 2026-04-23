@@ -39,6 +39,7 @@
             String user_files_path = getServletContext().getRealPath(USER_FILES_FOLDER_NAME);
             
             session.setAttribute("USER_FILES_PATH", user_files_path);
+            session.setAttribute("CURRENT_PATH_FROM_ORIGIN_FOLDER", "");
             statement.execute("CREATE TABLE IF NOT EXISTS Utente ("
                 + "Username VARCHAR(20) PRIMARY KEY,"
                 + "Password VARCHAR(20) NOT NULL"

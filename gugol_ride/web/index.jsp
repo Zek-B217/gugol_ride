@@ -1,13 +1,6 @@
 
 <%@include file="config.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-<!<!--  
-        mostrare cart + path
-  eliminazione 
-
--->
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,6 +11,7 @@
     </head>
     <body>
 
+        <%=session.getAttribute("CURRENT_PATH_FROM_ORIGIN_FOLDER").toString()%>
         <a href="signup.jsp">SIGN UP</a>
         <a href="login.jsp">LOG IN</a>
         
@@ -37,7 +31,13 @@
                     }
                 }
                 if(check){
-                    result = statement.executeQuery("SELECT f.* FROM utente u, permesso p, file f WHERE u.Username = p.Username AND p.IdFile = f.Id AND u.Username = '" + session.getAttribute("user_log") + "'");
+                    result = statement.executeQuery(
+                        "SELECT f.* FROM utente u, permesso p, file f WHERE u.Username = p.Username AND p.IdFile = f.Id AND u.Username = '" +
+                        session.getAttribute("user_log") +
+                        "' AND f.path = '" +
+                        session.getAttribute("CURRENT_PATH_FROM_ORIGIN_FOLDER") +
+                        "'"
+                    );
 
                     while (result.next()) { 
                         if(!result.getBoolean("Cartella")){
@@ -45,9 +45,8 @@
             %>
                             <div>
                                 <a href="<%=path%>" target="_blank"> <!--target="_blank" permette di aprire il file in un'altra schermata-->
-                                    <div >
+                                    <div>
                                         <img src="<%=path%>" width="100px" height="100px" title="<%=result.getString("Nome")%> - <%=result.getString("Proprietario")%>"   style="border: 1px solid #ccc">
-                                     
                                     </div>
                                 </a>
                                         <form action="condivisione.jsp" method="POST">
@@ -66,9 +65,12 @@
                         }else{
                         %>
                             <div>
-                                <div>
-                                    <img src="../media/cartella.png" width="100px" height="100px" title="<%=result.getString("Nome")%>">
-                                </div>
+                                <form action="apriCartella.jsp" method="post">
+                                    <button type="submit">
+                                        <img src="media/cartella.png" width="100px" height="100px" title="<%=result.getString("Nome")%>">
+                                    </button>
+                                    <input name="folderName" value="<%=result.getString("Nome")%>" hidden>
+                                </form>
                                 <form action="condivisione.jsp" method="POST">
                                     <input type="text" name="share" placeholder="inserisci nome per condividere"> 
                                     <input type="submit" value="condividi">
@@ -102,6 +104,14 @@
                     </div>
                     <button type="submit">Crea Cartella</button>
                 </form>
+                
+                <%
+                    if (session.getAttribute("CURRENT_PATH_FROM_ORIGIN_FOLDER").toString().length() > 0){
+                        %>
+                        <a href="chiudiCartella.jsp" target="_blank">Esci</a>
+                        <%
+                    }
+                %>
                 
                 <br><br><br>
                     

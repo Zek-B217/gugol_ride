@@ -5,6 +5,7 @@
 <%
     if(session.getAttribute("user_log") != null){
         session.setAttribute("user_log", null);
+        session.setAttribute("CURRENT_PATH_FROM_ORIGIN_FOLDER", "");
 
         if (request.getCookies() != null) {
             for (Cookie temp : request.getCookies()) {
